@@ -1,0 +1,33 @@
+# A2C Configuration for Ms. Pac-Man
+
+# Environment
+env_name: "ALE/MsPacman-v5"
+render_mode: null
+n_envs: 8  # Number of parallel environments
+
+# Training
+total_timesteps: 1000000
+learning_rate: 0.0007
+n_steps: 5  # Steps per environment per update
+
+# A2C Parameters
+gamma: 0.99
+gae_lambda: 1.0  # 1.0 = no GAE, just n-step returns
+normalize_advantage: true
+ent_coef: 0.01
+vf_coef: 0.5
+max_grad_norm: 0.5
+rms_prop_eps: 1e-5
+use_rms_prop: true
+
+# Logging
+log_interval: 1
+eval_freq: 10000
+eval_episodes: 10
+save_freq: 50000
+
+# Device
+device: "auto"  # "auto", "cuda", or "cpu"
+
+# Seed
+seed: 42
