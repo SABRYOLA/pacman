@@ -96,13 +96,13 @@ class RolloutBuffer:
         """
         last_gae_lam = 0
         
-        for step in reversed(range(self.buffer_size)):
+        for step in range(self.buffer_size - 1, -1, -1):
             if step == self.buffer_size - 1:
-                next_non_terminal = 1.0 - self.dones[step]
                 next_value = last_value
             else:
-                next_non_terminal = 1.0 - self.dones[step]
                 next_value = self.values[step + 1]
+            
+            next_non_terminal = 1.0 - self.dones[step]
             
             # TD error: δ_t = r_t + γ * V(s_{t+1}) - V(s_t)
             delta = self.rewards[step] + self.gamma * next_value * next_non_terminal - self.values[step]

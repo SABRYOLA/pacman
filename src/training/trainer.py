@@ -239,12 +239,14 @@ class OnPolicyTrainer(Trainer):
                     self.logger.print_stats()
                 
                 # Evaluation
-                if self.eval_env is not None and (update + 1) % (self.eval_freq // (self.agent.n_steps * self.agent.n_envs)) == 0:
+                eval_update_freq = max(1, self.eval_freq // (self.agent.n_steps * self.agent.n_envs))
+                if self.eval_env is not None and (update + 1) % eval_update_freq == 0:
                     mean_reward = self.evaluate()
                     print(f"Eval mean reward: {mean_reward:.2f}")
                 
                 # Save checkpoint
-                if (update + 1) % (self.save_freq // (self.agent.n_steps * self.agent.n_envs)) == 0:
+                save_update_freq = max(1, self.save_freq // (self.agent.n_steps * self.agent.n_envs))
+                if (update + 1) % save_update_freq == 0:
                     self.checkpoint_manager.save_checkpoint(
                         self.agent.policy,
                         self.agent.optimizer,

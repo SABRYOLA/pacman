@@ -8,6 +8,9 @@ from typing import Tuple, Dict
 from ..networks import ActorCriticNetwork
 from ..training import RolloutBuffer
 
+# Numerical stability constant
+EPSILON = 1e-8
+
 
 class A2CAgent:
     """
@@ -165,7 +168,7 @@ class A2CAgent:
         
         # Normalize advantages
         if self.normalize_advantage and len(advantages) > 1:
-            advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)
+            advantages = (advantages - advantages.mean()) / (advantages.std() + EPSILON)
         
         # Get current policy outputs
         _, new_log_probs, entropy, new_values = self.policy.get_action_and_value(
